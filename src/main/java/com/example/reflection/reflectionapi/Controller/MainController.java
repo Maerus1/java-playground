@@ -1,6 +1,6 @@
 package com.example.reflection.reflectionapi.Controller;
 
-import com.example.reflection.reflectionapi.Models.Student;
+import com.example.reflection.reflectionapi.Models.School.Student;
 import com.example.reflection.reflectionapi.Repositories.StudentRepo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

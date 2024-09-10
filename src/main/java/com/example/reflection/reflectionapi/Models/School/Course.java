@@ -1,4 +1,4 @@
-package com.example.reflection.reflectionapi.Models;
+package com.example.reflection.reflectionapi.Models.School;
 
 
 import lombok.Getter;

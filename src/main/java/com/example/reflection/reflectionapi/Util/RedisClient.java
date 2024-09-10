@@ -11,7 +11,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 @Component
-public class RedisClient implements InitializingBean{
+public class RedisClient implements InitializingBean {
 
     private Jedis jedis;
 
@@ -60,12 +60,16 @@ public class RedisClient implements InitializingBean{
         // Otherwise I'd need to connect to redis in the Controller or elsewhere
 
         if(redisEnabled) {
-            // TODO: Look into error handling this properly!
-            JedisPool pool = new JedisPool(redisHost, redisPort);
-            this.jedis = pool.getResource();
-            System.out.println("Redis is connected!!!");
+            // Using try-with-resources pattern (really cool!)
+            try (JedisPool pool = new JedisPool(redisHost, redisPort)) {
+                this.jedis = pool.getResource();
+                System.out.println("Redis is connected!!!");
+            } catch (Exception e) {
+                System.out.println("Redis is not connected!!!");
+                System.out.println(e.getMessage());
+            }
         } else {
-            System.out.println("Redis is NOT connected!!");
+            System.out.println("Redis is NOT enabled!!");
         }
     }
 }

@@ -1,11 +1,10 @@
 package com.example.reflection.reflectionapi.Repositories;
 
-import com.example.reflection.reflectionapi.Models.Course;
-import com.example.reflection.reflectionapi.Models.Student;
+import com.example.reflection.reflectionapi.Models.School.Course;
+import com.example.reflection.reflectionapi.Models.School.Student;
+import com.example.reflection.reflectionapi.Models.Books.Book;
+import com.example.reflection.reflectionapi.Models.Books.Comic;
 import com.example.reflection.reflectionapi.Util.RedisClient;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,15 +22,31 @@ public class StudentRepo {
 
     public List<Student> getStudents() {
         System.out.println("Wow!");
-        return List.of(Student.newStudent("Ham", "Sammich", List.of(new Course("Science"))), Student.newStudent("Meow", "Chow", List.of(new Course("Math"), new Course("Geometry"))));
+        List<Student> students = List.of();
+        try {
+            students = List.of(Student.newStudent("Sam", "Sammich", List.of(new Course("Science"))), Student.newStudent("Meow", "Chow", List.of(new Course("Math"), new Course("Geometry"))));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return students;
     }
 
     public Student getStudent(String id) {
         this.redisClient.setValue(id, "Ham");
-        System.out.println("Value from Redis: " + this.redisClient.getValue(id));
-        Student sudent = Student.newStudent("Steve", "Jobs", List.of(new Course("Art")));
 
-        System.out.println(sudent.getFirstName());
-        return Student.newStudent("Steve", "Jobs", List.of(new Course("Art")));
+        Comic comic = (Comic) Book.newBook("comIc");
+
+        System.out.println(comic);
+
+        Student student = Student.emptyStudent();
+
+        student.setFirstName("Meow");
+
+        try {
+            student = Student.newStudent("", "Jobs", List.of(new Course("Art")));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return student;
     }
 }
