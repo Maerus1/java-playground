@@ -1,9 +1,11 @@
 package com.example.reflection.reflectionapi.Repositories;
 
+import com.example.reflection.reflectionapi.Models.Books.EBook;
+import com.example.reflection.reflectionapi.Models.Books.IBook;
 import com.example.reflection.reflectionapi.Models.School.Course;
 import com.example.reflection.reflectionapi.Models.School.Student;
-import com.example.reflection.reflectionapi.Models.Books.Book;
 import com.example.reflection.reflectionapi.Models.Books.Comic;
+import com.example.reflection.reflectionapi.Models.School.StudentBuilder;
 import com.example.reflection.reflectionapi.Util.RedisClient;
 import org.springframework.stereotype.Repository;
 
@@ -34,13 +36,23 @@ public class StudentRepo {
     public Student getStudent(String id) {
         this.redisClient.setValue(id, "Ham");
 
-        Comic comic = (Comic) Book.newBook("comIc");
+        // Big difference between implements and extends is that implements is for creating a contract that will be fulfilled
+        // by the derived classes (Except for default and static methods), which extends provides those definitions which the child
+        // classes can then add more methods for anything that's not common to all.
+        Comic comic = (Comic) IBook.newBook("comIc");
+
+        System.out.println(comic.getBookType());
 
         System.out.println(comic);
 
         Student student = Student.emptyStudent();
 
         student.setFirstName("Meow");
+
+        // Builder paradigm:
+        StudentBuilder studentBuilder = new StudentBuilder.Builder().firstName("Steve").lastName("Believe").build();
+
+        System.out.println(studentBuilder.getFirstName() + " " + studentBuilder.getLastName());
 
         try {
             student = Student.newStudent("", "Jobs", List.of(new Course("Art")));

@@ -1,6 +1,8 @@
 package com.example.reflection.reflectionapi.Controller;
 
+import com.example.reflection.reflectionapi.Models.House.House;
 import com.example.reflection.reflectionapi.Models.School.Student;
+import com.example.reflection.reflectionapi.Repositories.HouseRepo;
 import com.example.reflection.reflectionapi.Repositories.StudentRepo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,9 +14,11 @@ import java.util.List;
 public class MainController {
 
     private final StudentRepo studentRepo;
+    private final HouseRepo houseRepo;
 
-    public MainController(StudentRepo studentRepo) {
+    public MainController(StudentRepo studentRepo, HouseRepo houseRepo) {
         this.studentRepo = studentRepo;
+        this.houseRepo = houseRepo;
     }
 
     @GetMapping("/")
@@ -34,5 +38,10 @@ public class MainController {
     @GetMapping("/student")
     public Student getStudent(@RequestParam(value = "id") String id) {
         return this.studentRepo.getStudent(id);
+    }
+
+    @GetMapping("/houses")
+    public List<House> getHouses() {
+        return this.houseRepo.getHouses();
     }
 }
